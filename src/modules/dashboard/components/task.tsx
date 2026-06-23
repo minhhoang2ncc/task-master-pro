@@ -3,32 +3,33 @@ import { Checkbox } from "@/shared/components/checkbox"
 import { Badge } from "@/shared/components/badge"
 import { Avatar, AvatarImage, AvatarFallback } from "@/shared/components/avatar"
 import { Calendar, CheckCheck } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
-export function Task({Title, Priority, DueDate} : {Title: string, Priority: string, DueDate: Date}) {
+export function Task({ id, Title, Priority, DueDate }: { id: number; Title: string; Priority: string; DueDate: Date }) {
+    const navigate = useNavigate()
     const [isHighlighted, setIsHighlighted] = useState(false)
     const [isCompleted, setIsCompleted] = useState(false)
-    const id = Math.random().toString(36).substring(2, 9) // Generate a random ID for the task
 
-    const onMouseEnter = () => {
-        setIsHighlighted(true)
+    const handleTaskClick = () => {
+        navigate(`/task/${id}`)
     }
 
-    const onMouseLeave = () => {
-        setIsHighlighted(false)
+    const handleCheckboxClick = (checked: boolean) => {
+        setIsCompleted(checked)
     }
 
     return (
         <div className={`flex items-center gap-4 p-5 border-b last:border-b relative transition-colors ${
               isHighlighted ? "border-l-2 border-l-indigo-500 dark:border-l-yellow-400" : ""
-            }`} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={() => setIsCompleted(!isCompleted)}>
+            }`} onMouseEnter={() => setIsHighlighted(true)} onMouseLeave={() => setIsHighlighted(false)}>
 
             <Checkbox 
               checked={isCompleted} 
-              onCheckedChange={(checked) => setIsCompleted(checked === true)}
+              onCheckedChange={handleCheckboxClick}
               className={`h-5 w-5 rounded border-slate-300 ${isCompleted ? "data-[state=checked]:bg-indigo-400 data-[state=checked]:border-indigo-400" : ""}`} 
             />
             
-            <section className="flex flex-col gap-1.5 flex-1">
+            <section className="flex flex-col gap-1.5 flex-1 cursor-pointer" onClick={handleTaskClick}>
               <span className={`text-base dark:text-white font-medium ${isCompleted ? "text-slate-400 line-through" : "text-slate-900"}`}>
                 {Title}
               </span>

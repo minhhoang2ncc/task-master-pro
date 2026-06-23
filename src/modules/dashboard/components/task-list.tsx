@@ -43,7 +43,7 @@ export function TaskList() {
             <CardContent>
                 {tasks.map((task) => {
                     return (
-                        <Task Title={task.title} Priority={task.priority} DueDate={task.dueDate} />
+                        <Task id={task.id} Title={task.title} Priority={task.priority} DueDate={task.dueDate} />
                     )
                 })}
             </CardContent>
