@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import { useTask } from "@/shared/context/TaskContext"
 
 // Shadcn UI Imports
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/shared/components/card"
+import { Card, CardHeader, CardTitle, CardContent } from "@/shared/components/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/select"
 import { Badge } from "@/shared/components/badge"
