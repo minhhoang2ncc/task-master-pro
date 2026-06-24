@@ -88,6 +88,7 @@ export function ProjectPerformanceTable() {
                     <Progress 
                       value={project.progressValue} 
                       className="h-2 w-24 bg-slate-200 dark:bg-slate-700" 
+                      indicatorClassName="bg-primary dark:bg-yellow-400"
                     />
                   </div>
                 </TableCell>
