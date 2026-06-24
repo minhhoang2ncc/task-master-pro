@@ -45,8 +45,8 @@ export function TaskDetailPage() {
     const progress = subtasks.filter(task => task.completed).length
     let percentage = progress / subtasks.length * 100
     return (
-        <section className="m-4 max-w-6xl mx-auto">
-                <div className="grid gap-4 grid-cols-[1fr_1fr_2fr]">
+        <section className="mx-auto max-w-6xl px-4">
+                <div className="grid gap-4 grid-cols-[repeat(2,1fr)_300px] grid-rows-[auto_auto_1fr]">
                     {/* Update Task - spans 2 cols, 2 rows */}
                     <div className="col-span-2 row-span-2">
                     <Detail />
@@ -54,7 +54,7 @@ export function TaskDetailPage() {
                     
                     {/* Actions & Progress - col 3, spans 2 rows */}
                     <div className="col-start-3 row-span-2 flex flex-col gap-4">
-                    <Card className="flex flex-col flex-1">
+                    <Card className="flex flex-col flex-1 bg-tabs-background dark:bg-background">
                         <CardHeader>
                             <CardTitle className="text-lg font-semibold">
                                 Actions
@@ -70,7 +70,7 @@ export function TaskDetailPage() {
                                 Delete Task
                             </Button>
                         </CardContent>
-                        <CardFooter className="mt-auto">
+                        <CardFooter className="mt-auto bg-tabs-background dark:bg-background">
                             <p className="text-sm text-muted-foreground">
                                 Last updated: {lastUpdated}
                             </p>
@@ -83,12 +83,17 @@ export function TaskDetailPage() {
                                 Progress
                             </CardTitle>
                         </CardHeader>
-                        <CardContent>
-                            <h3 className="text-2xl font-bold">{Math.round(percentage)}%</h3>
-                            <p className="text-md text-muted-foreground mb-4">
-                                {progress} of {subtasks.length} subtasks completed
+                        <CardContent className="flex flex-col gap-2 flex-1 justify-evenly">
+                            <div className="flex justify-between items-start mb-2">
+                                <h3 className="text-4xl text-primary dark:text-foreground font-bold">{Math.round(percentage)}%</h3>
+                                <p className="text-md text-muted-foreground">
+                                    {progress} of {subtasks.length} subtasks completed
+                                </p>
+                            </div>
+                            <Progress value={percentage} className="h-4 w-full" indicatorClassName="bg-primary dark:bg-foreground" />
+                            <p className="text-sm text-muted-foreground">
+                                Please complete {subtasks.length - progress} more subtasks to reach your goal.
                             </p>
-                            <Progress value={percentage} className="h-8 w-full" />
                         </CardContent>
                     </Card>
                     </div>

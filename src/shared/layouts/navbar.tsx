@@ -12,7 +12,7 @@ export function NavBar() {
         <nav className="flex-1 flex items-center justify-between gap-4 relative">
             <div>
                 <Search className= "absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground size-4" />
-                <input placeholder="Search tasks..." className="min-w-96 bg-transparent border border-input rounded pl-10 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-ring text-sm" />
+                <input placeholder="Search tasks..." className="max-w-160 min-w-120 h-8 bg-white dark:text-background border border-input rounded pl-10 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-ring text-sm" />
             </div>
             <div className="flex items-center gap-2">
                 <Button variant="ghost" size="icon" onClick={() => setIsNotification(!isNotification)}>

@@ -39,7 +39,7 @@ export function LanguageSecurity() {
                 </DropdownMenu>
                 <div className="flex items-center gap-2 mt-4">
                     <Lock className="w-4 h-4" />
-                    <Button variant="link" className="text-sm text-muted-foreground">
+                    <Button variant="link" className="text-sm text-primary font-bold">
                         Change Password
                     </Button>
                 </div>

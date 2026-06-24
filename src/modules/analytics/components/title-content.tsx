@@ -7,7 +7,7 @@ export function TitleContent(){
     return (
         <>
             <div>
-                <h1 className="text-xl font-bold text-foreground">Report & Statistics</h1>
+                <h1 className="text-3xl font-bold text-foreground">Report & Statistics</h1>
                 <h2 className="text-sm text-muted-foreground">Analyze your task performance for the past {timeRange}</h2>
             </div>
             <div className="flex items-center gap-2">

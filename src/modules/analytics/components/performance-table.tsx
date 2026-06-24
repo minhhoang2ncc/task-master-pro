@@ -42,9 +42,9 @@ const projects = [
 
 export function ProjectPerformanceTable() {
   return (
-    <Card className="w-full shadow-sm">
+    <Card className="w-full shadow-sm p-0 gap-0">
       {/* Header section with the title and "See all" button */}
-      <CardHeader className="flex flex-row items-center justify-between py-5 border-b border-slate-200 dark:border-slate-800">
+      <CardHeader className="flex flex-row items-center justify-between py-5 border-b bg-background border-slate-200 dark:border-slate-800">
         <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">Project Performance</CardTitle>
         <Button variant="link" className="text-indigo-600 dark:text-yellow-400 font-semibold p-0 h-auto">
           See all
@@ -52,8 +52,8 @@ export function ProjectPerformanceTable() {
       </CardHeader>
 
       <CardContent className="p-0">
-        <Table>
-          <TableHeader className="bg-slate-50 dark:bg-slate-900/20">
+        <Table className="m-0">
+          <TableHeader className="bg-background dark:bg-slate-900/20">
             <TableRow className="border-b border-slate-200 dark:border-slate-800">
               <TableHead className="px-4 py-5 font-semibold text-slate-600 dark:text-slate-400">PROJECT NAME</TableHead>
               <TableHead className="px-4 py-5 font-semibold text-slate-600 dark:text-slate-400">PROGRESS</TableHead>

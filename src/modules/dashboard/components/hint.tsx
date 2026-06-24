@@ -5,9 +5,9 @@ export function Hint(){
     return (
         <>
             <div className="relative">
-                <Card>
+                <Card className='bg-hint-background dark:bg-slate-800 dark:text-white'>
                     <CardHeader className="ml-4">
-                        <CardTitle>Hint to Improve Productivity</CardTitle>
+                        <CardTitle className="font-bold">Hint to Improve Productivity</CardTitle>
                     </CardHeader>
                     <CardContent className="flex items-center gap-2">
                     <Lightbulb className="w-6 h-6 text-yellow-500" />

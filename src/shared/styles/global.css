@@ -1,0 +1,5 @@
+@layer components {
+  @apply card-header text-xs font-semibold uppercase;
+  @apply btn-primary bg-indigo-600 hover:bg-indigo-700 text-white;
+  @apply flex-center flex items-center justify-center;
+}

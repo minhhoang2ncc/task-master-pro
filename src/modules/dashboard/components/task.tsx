@@ -4,6 +4,7 @@ import { Badge } from "@/shared/components/badge"
 import { Avatar, AvatarImage, AvatarFallback } from "@/shared/components/avatar"
 import { Calendar, CheckCheck } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { BADGE, PRIORITY } from "@/shared/styles/tailwind-classes"
 
 export function Task({ id, Title, Priority, DueDate }: { id: number; Title: string; Priority: string; DueDate: Date }) {
     const navigate = useNavigate()
@@ -39,10 +40,10 @@ export function Task({ id, Title, Priority, DueDate }: { id: number; Title: stri
                 {!isCompleted && (
                   <Badge 
                     variant="secondary" 
-                    className={`text-xs px-2 py-0 rounded-sm font-medium 
-                      ${Priority.toLowerCase() === 'high' ? 'bg-red-100 text-red-600 hover:bg-red-100' : ''}
-                      ${Priority.toLowerCase() === 'medium' ? "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300" : ''}
-                      ${Priority.toLowerCase() === 'low' ? 'bg-emerald-100 text-emerald-600 hover:bg-emerald-100' : ''}
+                    className={` ${BADGE.default} 
+                      ${Priority.toLowerCase() === 'high' ?  PRIORITY.high: ''}
+                      ${Priority.toLowerCase() === 'medium' ?  PRIORITY.medium: ''}
+                      ${Priority.toLowerCase() === 'low' ?  PRIORITY.low: ''}
                     `}
                   >
                     {Priority}
@@ -51,7 +52,7 @@ export function Task({ id, Title, Priority, DueDate }: { id: number; Title: stri
                 
                 {/* Completed state badge override */}
                 {isCompleted && (
-                  <Badge variant="secondary" className="bg-slate-100 text-slate-400 text-xs px-2 py-0 rounded-sm font-medium hover:bg-slate-100">
+                  <Badge variant="secondary" className={`${BADGE.default} ${BADGE.checked_mode}`}>
                     {Priority}
                   </Badge>
                 )}

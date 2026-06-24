@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/shared/components/ca
 import { User } from "lucide-react"
 export function ProfileCard({handleChange, formData}: {handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void, formData: {displayName: string, email: string, role: string}}) {
     return (
-        <Card className="col-span-2 md:col-span-3">
+        <Card className="col-span-2 md:col-span-3 border-l-4 border-primary dark:border-yellow-400">
             <CardHeader className="flex items-center gap-2">
                 <User className="w-6 h-6 text-indigo-500 dark:text-yellow-400" />
                 <CardTitle className="text-lg font-semibold">
@@ -22,7 +22,7 @@ export function ProfileCard({handleChange, formData}: {handleChange: (e: React.C
                 </div>
                 <div className="grid grid-cols-2 gap-4 col-span-2">
                     {/* Row 1 */}
-                    <div className="p-4 bg-slate-100 dark:bg-slate-900/30 rounded-md">
+                    <div className="p-4 rounded-md">
                         <label htmlFor="displayName" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Display Name
                         </label>
@@ -35,7 +35,7 @@ export function ProfileCard({handleChange, formData}: {handleChange: (e: React.C
                             className="mt-1 block w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50"
                         />
                     </div>
-                    <div className="p-4 bg-slate-100 dark:bg-slate-900/30 rounded-md">
+                    <div className="p-4 rounded-md">
                         <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Email
                         </label>
@@ -49,7 +49,7 @@ export function ProfileCard({handleChange, formData}: {handleChange: (e: React.C
                         />
                     </div>
                     {/* Row 2 */}
-                    <div className="col-span-2 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-md">
+                    <div className="col-span-2 p-4 rounded-md">
                         <label htmlFor="role" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Role
                         </label>
