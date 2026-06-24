@@ -13,7 +13,7 @@ import {
 import { Button } from "@/shared/components/button"
 
 import {LayoutDashboard, Settings, BarChart2} from "lucide-react"
-import { BUTTON_VARIANTS, CARD_LAYOUTS, SIDEBAR_ITEM, TEXT_SIZES } from "../styles/tailwind-classes"
+import { BUTTON_VARIANTS, SIDEBAR_ITEM } from "../styles/tailwind-classes"
 import { cn } from "../lib/utils"
 import { Card, CardContent} from "@/shared/components/card"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/avatar"

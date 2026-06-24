@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/shared/components/card"
+import { Card, CardContent } from "@/shared/components/card"
 import { CARD_LAYOUTS, TEXT_SIZES } from "@/shared/styles/tailwind-classes"
 import { cn } from "@/shared/lib/utils"
 
