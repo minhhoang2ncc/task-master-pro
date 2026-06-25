@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/shared/components/card"
 import { User } from "lucide-react"
-export function ProfileCard({handleChange, formData}: {handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void, formData: {displayName: string, email: string, role: string}}) {
+export function ProfileCard({handleChange, formData}: {handleChange: (e: React.ChangeEvent<HTMLInputElement |HTMLTextAreaElement>) => void, formData: {displayName: string, email: string, role: string}}) {
     return (
         <Card className="col-span-2 md:col-span-3 border-l-4 border-primary dark:border-yellow-400">
             <CardHeader className="flex items-center gap-2">
@@ -22,7 +22,7 @@ export function ProfileCard({handleChange, formData}: {handleChange: (e: React.C
                 </div>
                 <div className="grid grid-cols-2 gap-4 col-span-2">
                     {/* Row 1 */}
-                    <div className="p-4 rounded-md">
+                    <div className="rounded-md">
                         <label htmlFor="displayName" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Display Name
                         </label>
@@ -32,24 +32,27 @@ export function ProfileCard({handleChange, formData}: {handleChange: (e: React.C
                             name="displayName"
                             value={formData.displayName}
                             onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50"
+                            className="mt-1 block h-12 w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50"
                         />
                     </div>
-                    <div className="p-4 rounded-md">
+                   <div className="rounded-md">
                         <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Email
                         </label>
-                        <input
-                            type="email"
+                        <textarea
                             id="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50 wrap-break overflow-wrap-break-word"
+                            /* 1. Removed type="email" (textareas don't use this attribute)
+                            2. Removed your custom wrap classes (textareas wrap automatically)
+                            3. Added 'resize-none' so the user can't drag and break your layout
+                            */
+                            className="mt-1 block h-20 w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50 resize-none"
                         />
                     </div>
                     {/* Row 2 */}
-                    <div className="col-span-2 p-4 rounded-md">
+                    <div className="col-span-2 rounded-md">
                         <label htmlFor="role" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Role
                         </label>
@@ -59,13 +62,10 @@ export function ProfileCard({handleChange, formData}: {handleChange: (e: React.C
                             name="role"
                             value={formData.role}
                             onChange={handleChange}
-                            className="mt-1 block w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50"
+                            className="mt-1 block h-12 w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50"
                         />
                     </div>
                 </div>
-                
-                
-
             </CardContent>
         </Card>
     )

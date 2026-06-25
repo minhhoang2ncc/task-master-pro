@@ -10,8 +10,8 @@ export function LanguageSecurity() {
         <Card>
             <CardHeader>
                 <div className="flex items-center gap-2">
-                    <Globe className="w-4 h-4" />
-                    <CardTitle>Language & Security</CardTitle>
+                    <Globe className="w-6 h-6 text-primary" />
+                    <CardTitle className="text-xl font-semibold">Language & Security</CardTitle>
                 </div>
             </CardHeader>
             <CardContent>
@@ -38,7 +38,7 @@ export function LanguageSecurity() {
                     </DropdownMenuContent>
                 </DropdownMenu>
                 <div className="flex items-center gap-2 mt-4">
-                    <Lock className="w-4 h-4" />
+                    <Lock className="w-4 h-4 text-primary" />
                     <Button variant="link" className="text-sm text-primary font-bold">
                         Change Password
                     </Button>

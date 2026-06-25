@@ -20,7 +20,8 @@ export default function App() {
       <SidebarProvider>
         <AppSidebar />
         <main className="w-full">
-          <div className="flex items-center h-16 bg-background px-4 gap-2">
+          <div className="flex items-center h-16 bg-background
+           px-4 gap-2">
             <SidebarTrigger />
             <NavBar />
           </div>

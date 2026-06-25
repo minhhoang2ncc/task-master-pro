@@ -17,8 +17,8 @@ export function NotifyCard() {
         <Card>
             <CardHeader>
                 <div className="flex items-center gap-2">
-                    <Bell className="w-4 h-4" />
-                    <CardTitle>Notification</CardTitle>
+                    <Bell className="w-6 h-6 text-primary" />
+                    <CardTitle className="text-xl font-semibold">Notification</CardTitle>
                 </div>
             </CardHeader>
             <CardContent>
@@ -31,7 +31,7 @@ export function NotifyCard() {
                             
                             {/* Text Container (Left) */}
                             <div className="flex flex-col gap-1">
-                                <Label htmlFor={switchId} className="text-sm font-medium cursor-pointer">
+                                <Label htmlFor={switchId} className="text-lg font-medium cursor-pointer">
                                     {setting.name}
                                 </Label>
                                 <span className="text-sm text-muted-foreground">
@@ -40,7 +40,7 @@ export function NotifyCard() {
                             </div>
 
                             {/* Switch Container (Right) */}
-                            <Switch id={switchId} />
+                            <Switch id={switchId} size="lg" />
 
                         </div>
                     )

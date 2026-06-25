@@ -1,5 +1,6 @@
 import { TimeRangeSelector } from "@/modules/analytics/components/time-range-selector";
 import { Button } from "@/shared/components/button";
+import { DownloadIcon } from "lucide-react";
 import { useState } from "react";
 
 export function TitleContent(){
@@ -13,6 +14,7 @@ export function TitleContent(){
             <div className="flex items-center gap-2">
                 <TimeRangeSelector timeRange={timeRange} setTimeRange={setTimeRange} />
                 <Button variant="default" size="lg">
+                    <DownloadIcon className="mr-2 h-4 w-4" />
                     Export Report
                 </Button>
             </div>

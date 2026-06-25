@@ -11,13 +11,15 @@ export const CARD_LAYOUTS = {
 };
 
 export const TABS_LAYOUT = {
-    default: "bg-tabs-background dark:bg-background rounded-sm py-6 flex items-center",
-    trigger: "data-active:bg-background data-active:text-primary h-10 hover:text-primary"
+    default: "bg-tabs-background dark:bg-background rounded-[12px] group-data-horizontal/tabs:h-auto inline-flex items-center",
+    trigger: "data-active:bg-background data-active:text-primary rounded-[8px] px-4 h-9 hover:text-primary"
 }
 
 export const SIDEBAR_ITEM = {
     default: `
         pl-4
+        p-6
+        text-md
         dark:data-[active=true]:text-yellow-400
         data-[active=true]:bg-transparent
         dark:data-[active=true]:bg-transparent
@@ -28,7 +30,6 @@ export const SIDEBAR_ITEM = {
         data-[active=true]:border-primary
         dark:data-[active=true]:border-yellow-400
         transition-all
-
         rounded-none
     `
 }

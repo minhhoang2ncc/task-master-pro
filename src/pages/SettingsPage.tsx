@@ -22,10 +22,10 @@ export function SettingsPage() {
                 <LanguageSecurity />
             </div>
             <div className="flex justify-end gap-4 p-4 w-full h-fit">
-                <Button variant="outline" size="lg" className="mt-4 rounded-md text-foreground bg-hint-background hover:bg-hint-background/80">
+                <Button variant="outline" size="lg" className="mt-4 h-12 rounded-[8px] px-6 text-foreground bg-hint-background hover:bg-hint-background/80">
                     Cancel
                 </Button>
-                <Button variant="default" size="lg" className="mt-4 rounded-md text-white bg-primary hover:bg-primary/80 dark:bg-foreground dark:text-background dark:hover:bg-foreground/80">
+                <Button variant="default" size="lg" className="mt-4 h-12 rounded-[8px] px-6 text-white bg-primary hover:bg-primary/80 dark:bg-foreground dark:text-background dark:hover:bg-foreground/80">
                     Save Changes
                 </Button>
             </div>

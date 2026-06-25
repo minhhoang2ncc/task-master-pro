@@ -48,7 +48,7 @@ export function TaskList() {
                 })}
             </CardContent>
             <CardFooter className="text-sm text-muted-foreground flex justify-center">
-                <Button variant="default" size="sm">
+                <Button variant="link" size="lg">
                     View All Tasks
                 </Button>
             </CardFooter>

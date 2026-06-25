@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useTask } from "@/shared/context/TaskContext"
 
@@ -40,6 +40,13 @@ export function Detail() {
     const initialDate = task?.DueDate ? new Date(task.DueDate) : new Date()
     const [dueDate, setDueDate] = useState<Date>(initialDate)
 
+    useEffect(() => {
+        setTitle(task?.Title || "")
+        setDescription(task?.Description || "")
+        setPriority(task?.Priority || "")
+        setDueDate(task?.DueDate ? new Date(task.DueDate) : new Date())
+    }, [task])
+
     const handleTagToggle = (tag: { name: string; color: string }) => {
         setTags((prevTags) => {
             if (prevTags.some((t) => t.name === tag.name)) {
@@ -51,7 +58,7 @@ export function Detail() {
     }
 
     return (
-        <Card className="w-full max-w-3xl shadow-sm col-span-2 row-span-2">
+        <Card className="w-full shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between border-b pb-4 mb-6">
                 <CardTitle className="text-xl font-bold text-foreground">Update Task</CardTitle>
                 <Badge 
@@ -100,7 +107,7 @@ export function Detail() {
                         <Input 
                             id="due-date"
                             type="date" 
-                            value={dueDate.toISOString().split("T")} 
+                            value={dueDate.toISOString().split("T")[0]} 
                             onChange={(e) => setDueDate(new Date(e.target.value))} 
                         />
                     </div>
@@ -163,11 +170,6 @@ export function Detail() {
                     </div>
                 </div>
             </CardContent>
-
-            {/* <CardFooter className="flex justify-end border-t pt-4">
-                <Button variant="outline" className="mr-2">Cancel</Button>
-                <Button>Save Changes</Button>
-            </CardFooter> */}
         </Card>
     )
 }

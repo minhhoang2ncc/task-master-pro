@@ -50,7 +50,7 @@ export function WeeklyProductivityChart() {
               className="text-slate-500 text-sm"
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} verticalAlign="top" align="right" wrapperStyle={{ top: -40 }} />
+            <ChartLegend content={<ChartLegendContent />} verticalAlign="top" align="right" wrapperStyle={{ top: -70, right: -120 }} />
             
             <Line
               dataKey="newTasks"

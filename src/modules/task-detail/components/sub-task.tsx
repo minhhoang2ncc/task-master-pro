@@ -7,7 +7,7 @@ import { GripVertical, Plus, Network } from "lucide-react"
 
 export function SubtasksCard({ subtasks, onSubtaskChange }: { subtasks: any[]; onSubtaskChange?: (id: number, completed: boolean) => void }) {
   return (
-    <Card className="w-full max-w-2xl shadow-sm">
+    <Card className="w-full shadow-sm">
       {/* Header Section */}
       <CardHeader className="flex flex-row items-center justify-between pb-4">
         <div className="flex items-center gap-2">

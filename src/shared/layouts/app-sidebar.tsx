@@ -29,7 +29,7 @@ export function AppSidebar() {
       name: "John Doe",
       role: "Intern Developer",
       icon: (
-              <Avatar className="h-8 w-8 border">
+              <Avatar className="h-8 w-8 border-2 border-white">
                 <AvatarImage src={`https://api.dicebear.com/7.x/notionists/svg?seed=1`} alt="Assignee" />
                 <AvatarFallback>U</AvatarFallback>
               </Avatar>
@@ -66,11 +66,11 @@ export function AppSidebar() {
             )
         })}
         </SidebarMenu>
-        <div className="flex flex-col justify-center items-center m-6">
-          <Button className={cn(BUTTON_VARIANTS.active, 'w-full h-10 rounded-md text-md font-bold')}>
+        <div className="flex flex-col justify-between items-center gap-8 m-6">
+          <Button className={cn(BUTTON_VARIANTS.active, 'w-full h-12 rounded-lg text-md')}>
             + Add New Task
           </Button>
-          <Card className='m-4 w-full bg-tabs-background dark:bg-background'>
+            <Card className='w-full bg-tabs-background dark:bg-background border-none rounded-xl ring-0 shadow-none'>
               <CardContent className='flex justify-start items-center gap-4'>
                   {user.icon}
                   <div className="flex flex-col justify-start gap-1">
