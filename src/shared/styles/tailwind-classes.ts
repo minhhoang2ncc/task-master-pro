@@ -47,7 +47,7 @@ export const PRIORITY = {
 
 export const TEXT_SIZES = {
     card_title_default: 'text-3xl font-bold',
-    title_secondary: 'text-xl'
+    title_secondary: 'text-md'
 }
 
 export const PROGRESS_BAR = {

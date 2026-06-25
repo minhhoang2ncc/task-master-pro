@@ -4,13 +4,14 @@ import { TitleBar } from "@/shared/layouts/titlebar"
 import { NotifyCard } from "@/modules/settings/components/notify-card"
 import { LanguageSecurity } from "@/modules/settings/components/language-security"
 import { Button } from "@/shared/components/button"
+import { TEXT_SIZES } from "@/shared/styles/tailwind-classes"
 export function SettingsPage() {
     return (
         <section>
             <TitleBar>
                 <div>
-                    <h1 className="text-3xl font-bold text-foreground">System Settings</h1>
-                    <p className="text-muted-foreground">This is the settings page. You can customize your preferences here.</p>
+                    <h1 className={TEXT_SIZES.card_title_default}>System Settings</h1>
+                    <p className={`${TEXT_SIZES.title_secondary} text-muted-foreground`}>This is the settings page. You can customize your preferences here.</p>
                 </div>
             </TitleBar>
             <div className="grid grid-cols-3 md:grid-cols-4 gap-4 p-4 w-full h-fit">
