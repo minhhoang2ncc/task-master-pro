@@ -9,8 +9,8 @@ import {
 } from "@/shared/components/chart"
 
 import type { ChartConfig } from "@/shared/components/chart"
-import { useSelector } from "react-redux"
-import type { RootState } from "@/redux/store"
+// import { useSelector } from "react-redux"
+// import type { RootState } from "@/redux/store"
 
 // const taskList = useSelector((state: RootState) => state.tasks) || []
 
