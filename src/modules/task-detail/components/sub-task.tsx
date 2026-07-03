@@ -1,11 +1,81 @@
 import { Card, CardContent, CardHeader } from "@/shared/components/card"
 import { Checkbox } from "@/shared/components/checkbox"
 import { Button } from "@/shared/components/button"
-import { GripVertical, Plus, Network } from "lucide-react"
+import { GripVertical, Plus, Network, TrashIcon } from "lucide-react"
+import type { Subtask, TaskRecord } from "@/shared/type"
+import { useDispatch } from "react-redux"
+import { modify } from "@/redux/features/taskSlice"
+import { useEffect, useState, useRef } from "react"
 
 
 
-export function SubtasksCard({ subtasks, onSubtaskChange }: { subtasks: any[]; onSubtaskChange?: (id: number, completed: boolean) => void }) {
+export function SubtasksCard({
+  task,
+  modifyRegister,
+  deleteRegister,
+  addSubtaskRegister,
+  onAddSubtask
+}: {
+  task: TaskRecord | undefined
+  modifyRegister?: (getter: () => Subtask[] | undefined) => void
+  deleteRegister?: (handler: () => void) => void
+  addSubtaskRegister?: (handler: (title: string) => void) => void
+  onAddSubtask?: () => void
+}) {
+
+  const dispatch = useDispatch()
+  const subtasks = task?.subtasks || []
+
+  const [draftSubTasks, setDraftSubTasks] = useState<Subtask[]>(subtasks)
+  const draftSubTasksRef = useRef<Subtask[]>(subtasks)
+
+  useEffect(() => {
+    setDraftSubTasks(subtasks)
+    draftSubTasksRef.current = subtasks
+  }, [subtasks])
+
+  const handleSubtaskChange = (id: number, completed: boolean) => {
+    const updatedSubtasks = draftSubTasks.map((t) =>
+      t.id === id ? { ...t, completed: completed } : t
+    )
+    setDraftSubTasks(updatedSubtasks)
+  }
+
+  const handleDeleteSubtask = (id: number) => {
+    const updatedSubtasks = draftSubTasks.filter((t) => t.id !== id)
+    setDraftSubTasks(updatedSubtasks)
+  }
+
+  const handleAddSubtask = (title: string) => {
+    if (!task) return
+    const nextSubtaskId = subtasks.length > 0 ? Math.max(...subtasks.map((subtask) => subtask.id)) + 1 : 1
+    const nextSubtasks = [
+      ...subtasks,
+      {
+        id: nextSubtaskId,
+        title,
+        completed: false,
+      },
+    ]
+    dispatch(modify({ ...task, subtasks: nextSubtasks }))
+  }
+
+  useEffect(() => {
+    draftSubTasksRef.current = draftSubTasks
+  }, [draftSubTasks])
+
+  useEffect(() => {
+    if (!task) return
+    modifyRegister?.(() => draftSubTasksRef.current)
+    deleteRegister?.(() => {
+      dispatch(modify({ ...task, subtasks: draftSubTasksRef.current }))
+    })
+  }, [task, modifyRegister, deleteRegister])
+
+
+
+  addSubtaskRegister?.(handleAddSubtask)
+
   return (
     <Card className="w-full shadow-sm">
       {/* Header Section */}
@@ -16,42 +86,55 @@ export function SubtasksCard({ subtasks, onSubtaskChange }: { subtasks: any[]; o
             Subtasks ({subtasks.length})
           </h2>
         </div>
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           className="text-indigo-700 font-semibold hover:text-indigo-800 hover:bg-indigo-50 px-2"
+          onClick={onAddSubtask}
         >
-          <Plus className="w-4 h-4 mr-1" strokeWidth={3} /> 
+          <Plus className="w-4 h-4 mr-1" strokeWidth={3} />
           Add subtask
         </Button>
       </CardHeader>
 
       {/* List Section */}
       <CardContent className="flex flex-col gap-3">
-        {subtasks.map((task) => (
+        {draftSubTasks.map((task) => (
           <div
             key={task.id}
-            className="flex items-center gap-4 p-4 border border-slate-200 rounded-md relative transition-colors cursor-pointer hover:bg-slate-50"
+            className="group flex items-center gap-4 p-4 border border-slate-200 rounded-md relative transition-colors cursor-pointer hover:bg-slate-50"
           >
             {/* Drag Handle */}
-            <GripVertical className="w-5 h-5 text-slate-400 cursor-grab flex-shrink-0" />
+            <GripVertical className="w-5 h-5 text-slate-400 cursor-grab shrink-0" />
 
             {/* Checkbox */}
             <Checkbox
               checked={task.completed}
-              onCheckedChange={(checked) => onSubtaskChange?.(task.id, checked === true)}
+              onCheckedChange={() => {
+                handleSubtaskChange(task.id, !task.completed)
+              }}
               className="w-5 h-5 rounded border-slate-300"
             />
 
             {/* Task Title with Dynamic Styling */}
             <span
-              className={`text-base flex-1 ${
-                task.completed
-                  ? "text-slate-500 line-through"
-                  : "text-slate-700"
-              }`}
+              className={`text-base flex-1 ${task.completed
+                ? "text-slate-500 line-through"
+                : "text-slate-700"
+                }`}
             >
               {task.title}
             </span>
+
+            <button
+              type="button"
+              aria-label={`Remove ${task.title}`}
+              className="absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
+              onClick={() => {
+                handleDeleteSubtask(task.id)
+              }}
+            >
+              <TrashIcon className="h-4 w-4 text-red-500 hover:scale-125" />
+            </button>
           </div>
         ))}
       </CardContent>

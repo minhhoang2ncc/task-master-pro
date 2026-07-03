@@ -5,35 +5,56 @@ import { SidebarProvider, SidebarTrigger } from "@/shared/components/sidebar"
 import { DashboardPage } from "@/pages/DashboardPage"
 import { AnalyticsPage } from "@/pages/AnalyticsPage"
 import { SettingsPage } from "@/pages/SettingsPage"
-import { TaskProvider } from "@/shared/context/TaskContext"
 import { TaskDetailPage } from "@/pages/TaskDetailPage"
+import { TaskForm } from "@/shared/layouts/task-form"
+import type { TaskRecord } from "@/shared/type"
+import { useDispatch, useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
+import { append } from "@/redux/features/taskSlice"
 
 export default function App() {
-  const allTasks = [
-  { id: 1, Title: "Design new landing page", Description: "Create a new landing page for the product", Priority: "High", DueDate: new Date("2024-06-15") },
-  { id: 2, Title: "Fix login bug", Description: "Resolve the issue with user login", Priority: "Medium", DueDate: new Date("2024-06-10") },
-  { id: 3, Title: "Update user profile UI", Description: "Improve the user profile page design", Priority: "Low", DueDate: new Date("2024-06-20") },
-  { id: 4, Title: "Implement search functionality", Description: "Add search capabilities to the application", Priority: "High", DueDate: new Date("2024-06-18") },
-]
+  const dispatch = useDispatch()
+  const taskList = useSelector((state: RootState) => state.tasks) || []
+
+  const draftTask: TaskRecord = {
+    id: 0,
+    title: "",
+    description: "",
+    priority: "Low",
+    dueDate: new Date().toISOString().split("T")[0],
+    status: "pending",
+    subtasks: [],
+    tags: [],
+  }
+
+  const handleCreateTask = (task: TaskRecord) => {
+    const nextId = taskList.length > 0 ? Math.max(...taskList.map((item) => item.id)) + 1 : 1
+
+    dispatch(append({
+      ...task,
+      id: nextId,
+    }))
+  }
+
   return (
-    <TaskProvider tasks={allTasks}>
-      <SidebarProvider>
-        <AppSidebar />
-        <main className="w-full">
-          <div className="flex items-center h-16 bg-background
+    //    <TaskProvider tasks={allTasks}>
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="w-full">
+        <div className="flex items-center h-16 bg-background
            px-4 gap-2">
-            <SidebarTrigger />
-            <NavBar />
-          </div>
-          <Routes>
-            <Route path="/dashboard" element={<DashboardPage name="John Doe" numTask={5} />} />
-            <Route path="/task/:id" element={<TaskDetailPage />} />
-            <Route path="/analytics" element={<AnalyticsPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            {/* <Route path="/" element={<DashboardPage name="John Doe" numTask={5} />} /> */}
-          </Routes>
-        </main>
-      </SidebarProvider>
-    </TaskProvider>
+          <SidebarTrigger />
+          <NavBar />
+        </div>
+        <Routes>
+          <Route path="/dashboard" element={<DashboardPage name="John Doe" numTask={5} />} />
+          <Route path="/task/:id" element={<TaskDetailPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Routes>
+      </main>
+      <TaskForm task={draftTask} onSubmit={handleCreateTask} />
+    </SidebarProvider>
+    //    </TaskProvider>
   )
 }

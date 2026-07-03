@@ -1,17 +1,21 @@
 import { Tab } from "@/modules/analytics/components/tab"
 import {ClipboardList, CircleCheck, AlarmClockOff, TrendingUp } from "lucide-react"
+import { useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
 export function SummaryTabs() {
+    const taskList = useSelector((state: RootState) => state.tasks) || []
+    
     const summaryList = [
         {
             title: "Total Tasks",
-            value: 128, // Replace with actual value
+            value: taskList.length,
             icon: <ClipboardList className="w-8 h-8 mb-6 text-blue-500 bg-blue-200 p-1 rounded-md" />,
             previousValue: 100, // Replace with actual previous value
             color: "blue"
         },
         {
             title: "Completed Tasks",
-            value: 94, // Replace with actual value
+            value: taskList.filter(task => task.status === 'completed').length,
             icon: <CircleCheck className="w-8 h-8 mb-6 text-green-500 bg-green-200 p-1 rounded-md" />,
             previousValue: 80, // Replace with actual previous value
             color: "green"

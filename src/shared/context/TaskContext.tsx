@@ -1,13 +1,6 @@
 import { createContext, useContext } from "react"
 import type { ReactNode } from "react"
-
-interface Task {
-  id: number
-  Title: string
-  Description: string
-  Priority: string
-  DueDate: Date
-}
+import type { Task } from "@/shared/type"
 
 interface TaskContextType {
   tasks: Task[]

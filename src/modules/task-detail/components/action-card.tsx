@@ -3,7 +3,7 @@ import { Button } from "@/shared/components/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/avatar"
 import { Save, TrashIcon, History } from "lucide-react"
 
-export function ActionCard({ lastUpdated }: { lastUpdated: string }) {
+export function ActionCard({ lastUpdated, onSave, onDelete }: { lastUpdated: string; onSave?: () => void; onDelete?: () => void }) {
     return (
         <Card className="flex flex-col bg-[#D3E4FE] dark:bg-background">
             <CardHeader>
@@ -13,11 +13,11 @@ export function ActionCard({ lastUpdated }: { lastUpdated: string }) {
             </CardHeader>
             
             <CardContent className="flex flex-col gap-2">
-                <Button variant="default" className="flex-1 h-auto py-3">
+                <Button variant="default" className="flex-1 h-auto py-3" onClick={onSave} disabled={!onSave}>
                     <Save className="w-4 h-4 mr-2" />
                     Save Changes
                 </Button>
-                <Button variant="destructive" className="flex-1 h-auto py-3 bg-white dark:bg-background border-red-600">
+                <Button variant="destructive" className="flex-1 h-auto py-3 bg-white dark:bg-background border-red-600" onClick={onDelete} disabled={!onDelete}>
                     <TrashIcon className="w-4 h-4 mr-2" />
                     Delete Task
                 </Button>

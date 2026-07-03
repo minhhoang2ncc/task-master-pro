@@ -9,9 +9,13 @@ import {
 } from "@/shared/components/chart"
 
 import type { ChartConfig } from "@/shared/components/chart"
+import { useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
+
+// const taskList = useSelector((state: RootState) => state.tasks) || []
 
 const chartData = [
-  { day: "Mon", newTasks: 30, completed: 15 },
+  { day: "Mon", newTasks: 30, completed: 20 },
   { day: "Tue", newTasks: 45, completed: 25 },
   { day: "Wed", newTasks: 25, completed: 20 },
   { day: "Thu", newTasks: 60, completed: 40 },

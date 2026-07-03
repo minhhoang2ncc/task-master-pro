@@ -3,8 +3,15 @@ import { Globe, ChevronRight, Lock } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/dropdown-menu"
 import { useState } from "react"
 import { Button } from "@/shared/components/button"
-export function LanguageSecurity() {
-    const [language, setLanguage] = useState("English")
+import type { AppLanguage, LanguageSettings } from "@/shared/type"
+
+export function LanguageSecurity({
+    settings,
+    onChange,
+}: {
+    settings: LanguageSettings
+    onChange: (language: AppLanguage) => void
+}) {
     const [isOpen, setIsOpen] = useState(false)
     return (
         <Card>
@@ -21,18 +28,18 @@ export function LanguageSecurity() {
                 <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
                     <DropdownMenuTrigger asChild className="w-full">
                         <Button variant="outline" size="lg" className="flex justify-between w-full">
-                            <span className="ml-2"> {language}</span>
+                            <span className="ml-2"> {settings.language}</span>
                             <ChevronRight className={`h-4 w-4 ml-2 transition-transform duration-300 ${isOpen ? "rotate-90" : "rotate-0"}`} />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-(--radix-dropdown-menu-trigger-width)">
-                        <DropdownMenuItem onClick={() => setLanguage("English")}>
+                        <DropdownMenuItem onClick={() => onChange("English")}>
                             English
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setLanguage("Spanish")}>
+                        <DropdownMenuItem onClick={() => onChange("Spanish")}>
                             Spanish
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setLanguage("Vietnamese")}>
+                        <DropdownMenuItem onClick={() => onChange("Vietnamese")}>
                             Vietnamese
                         </DropdownMenuItem>
                     </DropdownMenuContent>

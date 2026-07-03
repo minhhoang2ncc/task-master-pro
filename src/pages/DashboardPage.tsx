@@ -7,17 +7,22 @@ import { TitleContent } from "@/modules/dashboard/components/title-content";
 import { Hint } from "@/modules/dashboard/components/hint";
 import { Button } from "@/shared/components/button";
 import { Plus } from "lucide-react";
+import { useState } from "react";
+
 export function DashboardPage({ name, numTask }: { name: string; numTask: number }) {
+    const [taskFilter, setTaskFilter] = useState<string>("all")
+
     return (
         <section>
             <TitleBar>
-                <TitleContent name={name} numTask={numTask} />
+                <TitleContent name={name} numTask={numTask} taskFilter={taskFilter} setTaskFilter={setTaskFilter} />
             </TitleBar>
             <div className="flex flex-col gap-4 p-4 w-full h-fit">
                 <SummaryTabs />
-                <TaskList />
+                <TaskList filter={taskFilter} />
                 <Hint/>
             </div>
+            
             <Button
                 size="icon"
                 className="fixed bottom-4 right-4 w-14 h-14 rounded-full bg-indigo-700 hover:bg-indigo-800 shadow-lg"

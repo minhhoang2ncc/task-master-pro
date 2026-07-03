@@ -4,10 +4,13 @@ import { CheckCircle2, AlertCircle, Clock } from "lucide-react"
 import { CARD_LAYOUTS, PROGRESS_BAR, TEXT_SIZES } from "@/shared/styles/tailwind-classes";
 import { cn } from "@/shared/lib/utils"
 import { SummaryCard } from "./summary-card";
+import { useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
 export function SummaryTabs() {
-    const numPrioTasks = 3;
-    const avgTime = 42; // in minutes
-    const completionRate = 75; // in percentage
+    const taskList = useSelector((state: RootState) => state.tasks)
+    const numPrioTasks = taskList.filter(task => task.priority.toLowerCase() === 'high' && task.status !== 'completed').length
+    const avgTime = taskList.reduce((sum, task) => sum + (task.dueDate ? 1 : 0), 0) / Math.max(taskList.length, 1);
+    const completionRate = taskList.length ? Math.round((taskList.filter(task => task.status === 'completed').length / taskList.length) * 100) : 0;
 
     const summaryList = [
         {

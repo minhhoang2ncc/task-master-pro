@@ -2,15 +2,27 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ca
 import { Bell } from "lucide-react"
 import { Switch } from "@/shared/components/switch"
 import { Label } from "@/shared/components/label"
-export function NotifyCard() {
+import type { NotificationSettings } from "@/shared/type"
+
+export function NotifyCard({
+    settings,
+    onChange,
+}: {
+    settings: NotificationSettings
+    onChange: (field: keyof NotificationSettings, value: boolean) => void
+}) {
     const notificationSettings = [
         {
             name: "Browser Notifications",
             description: "Get notified on your Desktop"
+            ,
+            field: "browserNotifications" as const,
         },
         {
             name: "Email Notifications",
             description: "Receive updates via email"
+            ,
+            field: "emailNotifications" as const,
         }
     ]
     return (
@@ -22,14 +34,11 @@ export function NotifyCard() {
                 </div>
             </CardHeader>
             <CardContent>
-                {notificationSettings.map((setting, index) => {
-                    // Create a unique ID for each switch so the label connects properly
-                    const switchId = `notification-${index}`
+                {notificationSettings.map((setting) => {
+                    const switchId = `notification-${setting.field}`
 
                     return (
                         <div key={setting.name} className="flex items-center justify-between gap-4 mb-4 last:mb-0">
-                            
-                            {/* Text Container (Left) */}
                             <div className="flex flex-col gap-1">
                                 <Label htmlFor={switchId} className="text-lg font-medium cursor-pointer">
                                     {setting.name}
@@ -39,8 +48,12 @@ export function NotifyCard() {
                                 </span>
                             </div>
 
-                            {/* Switch Container (Right) */}
-                            <Switch id={switchId} size="lg" />
+                            <Switch
+                                id={switchId}
+                                size="lg"
+                                checked={settings[setting.field]}
+                                onCheckedChange={(checked) => onChange(setting.field, checked)}
+                            />
 
                         </div>
                     )

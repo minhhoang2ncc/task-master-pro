@@ -5,19 +5,28 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/shared/components/avatar"
 import { Calendar, CheckCheck } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { BADGE, PRIORITY } from "@/shared/styles/tailwind-classes"
+import { useDispatch } from "react-redux"
+import { modify } from '@/redux/features/taskSlice';
 
-export function Task({ id, Title, Priority, DueDate }: { id: number; Title: string; Priority: string; DueDate: Date }) {
+export function Task({ id, Title, Priority, DueDate, status }: { id: number; Title: string; Priority: string; DueDate: string; status: string }) {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [isHighlighted, setIsHighlighted] = useState(false)
-    const [isCompleted, setIsCompleted] = useState(false)
+    const isCompleted = status === 'completed'
 
     const handleTaskClick = () => {
         navigate(`/task/${id}`)
     }
 
     const handleCheckboxClick = (checked: boolean) => {
-        setIsCompleted(checked)
-    }
+      dispatch(modify({ 
+          id: id, 
+          title: Title,       
+          priority: Priority, 
+          dueDate: DueDate, 
+          status: checked ? 'completed' : 'pending' 
+      }));
+  }
 
     return (
         <div className={`flex items-center gap-4 p-5 border-b last:border-b relative transition-colors ${
@@ -59,7 +68,7 @@ export function Task({ id, Title, Priority, DueDate }: { id: number; Title: stri
 
                 <div className="flex items-center text-sm text-slate-500 gap-1">
                   {isCompleted ? <CheckCheck className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
-                  <span>{DueDate.toLocaleDateString()}</span>
+                  <span>{new Date(DueDate).toLocaleDateString()}</span>
                 </div>
               </div>
             </section>

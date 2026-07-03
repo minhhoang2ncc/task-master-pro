@@ -1,6 +1,13 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/shared/components/card"
 import { User } from "lucide-react"
-export function ProfileCard({handleChange, formData}: {handleChange: (e: React.ChangeEvent<HTMLInputElement |HTMLTextAreaElement>) => void, formData: {displayName: string, email: string, role: string}}) {
+import type { User as UserType } from "@/shared/type"
+export function ProfileCard({
+    user,
+    onChange,
+}: {
+    user: UserType
+    onChange: (field: keyof UserType, value: string) => void
+}) {
     return (
         <Card className="col-span-2 md:col-span-3 border-l-4 border-primary dark:border-yellow-400">
             <CardHeader className="flex items-center gap-2">
@@ -30,8 +37,8 @@ export function ProfileCard({handleChange, formData}: {handleChange: (e: React.C
                             type="text"
                             id="displayName"
                             name="displayName"
-                            value={formData.displayName}
-                            onChange={handleChange}
+                            value={user.displayName}
+                            onChange={(event) => onChange("displayName", event.target.value)}
                             className="mt-1 block h-12 w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50"
                         />
                     </div>
@@ -42,12 +49,8 @@ export function ProfileCard({handleChange, formData}: {handleChange: (e: React.C
                         <textarea
                             id="email"
                             name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            /* 1. Removed type="email" (textareas don't use this attribute)
-                            2. Removed your custom wrap classes (textareas wrap automatically)
-                            3. Added 'resize-none' so the user can't drag and break your layout
-                            */
+                            value={user.email}
+                            onChange={(event) => onChange("email", event.target.value)}
                             className="mt-1 block h-20 w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50 resize-none"
                         />
                     </div>
@@ -60,8 +63,8 @@ export function ProfileCard({handleChange, formData}: {handleChange: (e: React.C
                             type="text"
                             id="role"
                             name="role"
-                            value={formData.role}
-                            onChange={handleChange}
+                            value={user.role}
+                            onChange={(event) => onChange("role", event.target.value)}
                             className="mt-1 block h-12 w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-400 focus:ring-opacity-50"
                         />
                     </div>
