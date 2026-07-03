@@ -3,6 +3,7 @@ import type { TaskRecord } from "@/shared/type"
 import { Button } from "@/shared/components/button"
 import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui"
 import { ChevronRight } from "lucide-react"
+import { postSaveTask } from "@/shared/lib/mock-api"
 export function TaskForm({ task, onSubmit }: { task: TaskRecord, onSubmit: (task: TaskRecord) => void }) {
   const [isOpen, setIsOpen] = useState(false)
   const [priority, setPriority] = useState(task?.priority || "Select priority")
@@ -36,6 +37,14 @@ export function TaskForm({ task, onSubmit }: { task: TaskRecord, onSubmit: (task
     }
 
     onSubmit(nextTask)
+
+    try {
+      postSaveTask(nextTask)
+    } catch (error) {
+      console.error("Failed to save task", error)
+    }
+    
+    handleCloseDialog()
   }
 
   const handleCloseDialog = () => {
