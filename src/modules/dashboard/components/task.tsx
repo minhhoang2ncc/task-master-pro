@@ -5,80 +5,79 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/shared/components/avatar"
 import { Calendar, CheckCheck } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { BADGE, PRIORITY } from "@/shared/styles/tailwind-classes"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { modify } from '@/redux/features/taskSlice';
+import type { RootState } from "@/redux/store"
 
 export function Task({ id, Title, Priority, DueDate, status }: { id: number; Title: string; Priority: string; DueDate: string; status: string }) {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const [isHighlighted, setIsHighlighted] = useState(false)
-    const isCompleted = status === 'completed'
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const fullTask = useSelector((state: RootState) => state.tasks.find((t) => t.id === id))
+  const [isHighlighted, setIsHighlighted] = useState(false)
+  const isCompleted = status === 'completed'
 
-    const handleTaskClick = () => {
-        navigate(`/task/${id}`)
-    }
-
-    const handleCheckboxClick = (checked: boolean) => {
-      dispatch(modify({ 
-          id: id, 
-          title: Title,       
-          priority: Priority, 
-          dueDate: DueDate, 
-          status: checked ? 'completed' : 'pending' 
-      }));
+  const handleTaskClick = () => {
+    navigate(`/task/${id}`)
   }
 
-    return (
-        <div className={`flex items-center gap-4 p-5 border-b last:border-b relative transition-colors ${
-              isHighlighted ? "border-l-2 border-l-indigo-500 dark:border-l-yellow-400" : ""
-            }`} onMouseEnter={() => setIsHighlighted(true)} onMouseLeave={() => setIsHighlighted(false)}>
+  const handleCheckboxClick = (checked: boolean) => {
+    if (!fullTask) return
+    dispatch(modify({
+      ...fullTask,
+      status: checked ? 'completed' : 'pending'
+    }))
+  }
 
-            <Checkbox 
-              checked={isCompleted} 
-              onCheckedChange={handleCheckboxClick}
-              className={`h-5 w-5 rounded border-slate-300 ${isCompleted ? "data-[state=checked]:bg-indigo-400 data-[state=checked]:border-indigo-400" : ""}`} 
-            />
-            
-            <section className="flex flex-col gap-1.5 flex-1 cursor-pointer" onClick={handleTaskClick}>
-              <span className={`text-base dark:text-white font-medium ${isCompleted ? "text-slate-400 line-through" : "text-slate-900"}`}>
-                {Title}
-              </span>
-              
-              <div className="flex items-center gap-3">
-                {/* Dynamic Badge Colors */}
-                {!isCompleted && (
-                  <Badge 
-                    variant="secondary" 
-                    className={` ${BADGE.default} 
-                      ${Priority.toLowerCase() === 'high' ?  PRIORITY.high: ''}
-                      ${Priority.toLowerCase() === 'medium' ?  PRIORITY.medium: ''}
-                      ${Priority.toLowerCase() === 'low' ?  PRIORITY.low: ''}
+  return (
+    <div className={`flex items-center gap-4 p-5 border-b last:border-b relative transition-colors ${isHighlighted ? "border-l-2 border-l-indigo-500 dark:border-l-yellow-400" : ""
+      }`} onMouseEnter={() => setIsHighlighted(true)} onMouseLeave={() => setIsHighlighted(false)}>
+
+      <Checkbox
+        checked={isCompleted}
+        onCheckedChange={handleCheckboxClick}
+        className={`h-5 w-5 rounded border-slate-300 ${isCompleted ? "data-[state=checked]:bg-indigo-400 data-[state=checked]:border-indigo-400" : ""}`}
+      />
+
+      <section className="flex flex-col gap-1.5 flex-1 cursor-pointer" onClick={handleTaskClick}>
+        <span className={`text-base dark:text-white font-medium ${isCompleted ? "text-slate-400 line-through" : "text-slate-900"}`}>
+          {Title}
+        </span>
+
+        <div className="flex items-center gap-3">
+          {/* Dynamic Badge Colors */}
+          {!isCompleted && (
+            <Badge
+              variant="secondary"
+              className={` ${BADGE.default} 
+                      ${Priority.toLowerCase() === 'high' ? PRIORITY.high : ''}
+                      ${Priority.toLowerCase() === 'medium' ? PRIORITY.medium : ''}
+                      ${Priority.toLowerCase() === 'low' ? PRIORITY.low : ''}
                     `}
-                  >
-                    {Priority}
-                  </Badge>
-                )}
-                
-                {/* Completed state badge override */}
-                {isCompleted && (
-                  <Badge variant="secondary" className={`${BADGE.default} ${BADGE.checked_mode}`}>
-                    {Priority}
-                  </Badge>
-                )}
+            >
+              {Priority}
+            </Badge>
+          )}
 
-                <div className="flex items-center text-sm text-slate-500 gap-1">
-                  {isCompleted ? <CheckCheck className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
-                  <span>{new Date(DueDate).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </section>
+          {/* Completed state badge override */}
+          {isCompleted && (
+            <Badge variant="secondary" className={`${BADGE.default} ${BADGE.checked_mode}`}>
+              {Priority}
+            </Badge>
+          )}
 
-            {!isCompleted && (
-              <Avatar className="h-8 w-8 ml-auto border">
-                <AvatarImage src={`https://api.dicebear.com/7.x/notionists/svg?seed=${id}`} alt="Assignee" />
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
-            )}
+          <div className="flex items-center text-sm text-slate-500 gap-1">
+            {isCompleted ? <CheckCheck className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
+            <span>{new Date(DueDate).toLocaleDateString()}</span>
+          </div>
         </div>
-    )
+      </section>
+
+      {!isCompleted && (
+        <Avatar className="h-8 w-8 ml-auto border">
+          <AvatarImage src={`https://api.dicebear.com/7.x/notionists/svg?seed=${id}`} alt="Assignee" />
+          <AvatarFallback>U</AvatarFallback>
+        </Avatar>
+      )}
+    </div>
+  )
 }

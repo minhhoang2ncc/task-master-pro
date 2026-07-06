@@ -11,42 +11,41 @@ import type { Subtask, TaskRecord } from "@/shared/type";
 import { useParams } from "react-router-dom";
 import type { RootState } from "@/redux/store";
 import { postSaveTask } from "@/shared/lib/mock-api";
+
 export function TaskDetailPage() {
-    const taskId = useParams<{ id: string }>().id;
-    const taskList = useSelector((state: RootState) => state.tasks) || [];
-    const task = taskList.find((item) => item.id === Number(taskId));
-    const subtasks = task?.subtasks || [];
-    const lastUpdated = new Date().toLocaleString();
-    const progress = subtasks.filter((subtask) => subtask.completed).length;
-    
-    const dispatch = useDispatch()
+  const taskId = useParams<{ id: string }>().id;
+  const taskList = useSelector((state: RootState) => state.tasks) || [];
+  const task = taskList.find((item) => item.id === Number(taskId));
+  const subtasks = task?.subtasks || [];
+  const lastUpdated = new Date().toLocaleString();
+  const progress = subtasks.filter((subtask) => subtask.completed).length;
 
-    const modifyTaskHandlerRef = useRef<(() => TaskRecord | undefined) | undefined>(undefined);
-    const deleteTaskHandlerRef = useRef<(() => void) | undefined>(undefined);
+  const dispatch = useDispatch()
 
-    const modifySubTaskHandlerRef = useRef<(() => Subtask[] | undefined) | undefined>(undefined);
-    const deleteSubTaskHandlerRef = useRef<(() => void) | undefined>(undefined);
+  const modifyTaskHandlerRef = useRef<(() => TaskRecord | undefined) | undefined>(undefined);
+  const deleteTaskHandlerRef = useRef<(() => void) | undefined>(undefined);
 
-    const saveHandler = async () => {
-      const taskData = modifyTaskHandlerRef.current?.()
-      const childSubtasks = modifySubTaskHandlerRef.current?.()
-      if (!taskData) return
-      const merged: TaskRecord = {
-        ...taskData,
-        subtasks: childSubtasks ?? taskData.subtasks ?? []
-      }
+  const modifySubTaskHandlerRef = useRef<(() => Subtask[] | undefined) | undefined>(undefined);
+  const deleteSubTaskHandlerRef = useRef<(() => void) | undefined>(undefined);
 
-      try {
-        await postSaveTask(merged)
-      } catch (error) {
-        console.error("Failed to save task", error)
-      }
-
-      dispatch(modify(merged))
+  const saveHandler = async () => {
+    const taskData = modifyTaskHandlerRef.current?.()
+    const childSubtasks = modifySubTaskHandlerRef.current?.()
+    if (!taskData) return
+    const merged: TaskRecord = {
+      ...taskData,
+      subtasks: childSubtasks ?? taskData.subtasks ?? []
     }
 
-    const handleAddSubtaskRef = useRef<((title: string) => void) | undefined>(undefined);
-    const [isSubtaskFormOpen, setIsSubtaskFormOpen] = useState(false)
+    dispatch(modify(merged))
+
+    postSaveTask(merged).catch((error) =>
+      console.error("Failed to sync task to API", error)
+    )
+  }
+
+  const handleAddSubtaskRef = useRef<((title: string) => void) | undefined>(undefined);
+  const [isSubtaskFormOpen, setIsSubtaskFormOpen] = useState(false)
   return (
     <section className="mx-auto max-w-6xl px-4">
       <div className="flex items-center gap-1 text-muted-foreground m-4">

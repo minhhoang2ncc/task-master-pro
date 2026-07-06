@@ -14,12 +14,15 @@ import { useDispatch } from "react-redux"
 import { remove } from "@/redux/features/taskSlice"
 import { useNavigate } from "react-router-dom"
 import type { TaskRecord } from "@/shared/type"
+import { deleteTask } from "@/shared/lib/mock-api"
 
-export function Detail({ task, modifyRegister,  deleteRegister}: 
-                      {task: TaskRecord | undefined, 
-                        modifyRegister?:(getter: () => TaskRecord | undefined) => void, 
-                        deleteRegister?:(handler: () => void) => void}) {
-  
+export function Detail({ task, modifyRegister, deleteRegister }:
+  {
+    task: TaskRecord | undefined,
+    modifyRegister?: (getter: () => TaskRecord | undefined) => void,
+    deleteRegister?: (handler: () => void) => void
+  }) {
+
   const tagList = [
     { name: "UI", color: "bg-blue-500" },
     { name: "Backend", color: "bg-green-500" },
@@ -32,10 +35,10 @@ export function Detail({ task, modifyRegister,  deleteRegister}:
     { name: "Documentation", color: "bg-orange-500" },
     { name: "Performance", color: "bg-cyan-500" },
   ]
-  
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  
+
   const [taskData, setTaskData] = useState<TaskRecord | undefined>(task)
   const [tags, setTags] = useState<{ name: string; color: string }[]>(taskData?.tags || [])
   const taskDataRef = useRef<TaskRecord | undefined>(task)
@@ -48,7 +51,7 @@ export function Detail({ task, modifyRegister,  deleteRegister}:
     if (!prev) return prev
     return { ...prev, [name]: value }
   })
-  
+
   const handleTagToggle = (tag: { name: string; color: string }) => {
     setTags((prevTags) => {
       const newTags = prevTags.some((t) => t.name === tag.name)
@@ -59,18 +62,6 @@ export function Detail({ task, modifyRegister,  deleteRegister}:
     })
   }
 
-  // useEffect(() => {
-  //   setTaskData(prev => {
-  //     if (!task) return prev
-  //     if (!prev) return task
-  //     return {
-  //       ...prev,
-  //       subtasks: task.subtasks ?? prev.subtasks,
-  //       tags: task.tags ?? prev.tags,
-  //     }
-  //   })
-  //   setTags(prev => task?.tags ?? prev ?? [])
-  // }, [task])
 
   useEffect(() => {
     taskDataRef.current = taskData
@@ -79,19 +70,19 @@ export function Detail({ task, modifyRegister,  deleteRegister}:
   useEffect(() => {
     if (!modifyRegister) return
     modifyRegister(() => taskDataRef.current)
-  }, [modifyRegister])
+  }, [])
 
-  // useEffect(() => {
-  //   if (!taskData) return
-  //   deleteRegister?.(() => {
-  //     dispatch(remove({ id: taskData.id }))
-  //     navigate("/dashboard")
-  //   })
-  // }, [])
-  deleteRegister?.(() => {
-      dispatch(remove({ id: taskData!.id }))
+  useEffect(() => {
+    if (!deleteRegister) return
+    deleteRegister(() => {
+      const id = taskDataRef.current!.id
+      dispatch(remove({ id }))
+      deleteTask(id).catch((error) =>
+        console.error("Failed to delete task from API", error)
+      )
       navigate("/dashboard")
     })
+  }, [])
   return (
     <Card className="w-full shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between border-b pb-4 mb-6">

@@ -18,6 +18,18 @@ export async function postSaveTask(payload: unknown) {
   return response.json()
 }
 
+export async function deleteTask(id: number) {
+  const response = await fetch(`${MOCK_API_URL_TASKS}/${id}`, {
+    method: "DELETE",
+  })
+
+  if (!response.ok) {
+    throw new Error(`DELETE ${MOCK_API_URL_TASKS}/${id} failed with status ${response.status}`)
+  }
+
+  return response.json()
+}
+
 export async function postSaveSettings(payload: unknown) {
   const response = await fetch(MOCK_API_URL_SETTINGS, {
     method: "POST",

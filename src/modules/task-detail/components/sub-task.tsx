@@ -3,8 +3,6 @@ import { Checkbox } from "@/shared/components/checkbox"
 import { Button } from "@/shared/components/button"
 import { GripVertical, Plus, Network, TrashIcon } from "lucide-react"
 import type { Subtask, TaskRecord } from "@/shared/type"
-import { useDispatch } from "react-redux"
-import { modify } from "@/redux/features/taskSlice"
 import { useEffect, useState, useRef } from "react"
 
 
@@ -12,7 +10,6 @@ import { useEffect, useState, useRef } from "react"
 export function SubtasksCard({
   task,
   modifyRegister,
-  deleteRegister,
   addSubtaskRegister,
   onAddSubtask
 }: {
@@ -23,16 +20,14 @@ export function SubtasksCard({
   onAddSubtask?: () => void
 }) {
 
-  const dispatch = useDispatch()
   const subtasks = task?.subtasks || []
 
   const [draftSubTasks, setDraftSubTasks] = useState<Subtask[]>(subtasks)
   const draftSubTasksRef = useRef<Subtask[]>(subtasks)
 
   useEffect(() => {
-    setDraftSubTasks(subtasks)
-    draftSubTasksRef.current = subtasks
-  }, [subtasks])
+    draftSubTasksRef.current = draftSubTasks
+  }, [draftSubTasks])
 
   const handleSubtaskChange = (id: number, completed: boolean) => {
     const updatedSubtasks = draftSubTasks.map((t) =>
@@ -48,29 +43,23 @@ export function SubtasksCard({
 
   const handleAddSubtask = (title: string) => {
     if (!task) return
-    const nextSubtaskId = subtasks.length > 0 ? Math.max(...subtasks.map((subtask) => subtask.id)) + 1 : 1
-    const nextSubtasks = [
-      ...subtasks,
-      {
-        id: nextSubtaskId,
-        title,
-        completed: false,
-      },
-    ]
-    dispatch(modify({ ...task, subtasks: nextSubtasks }))
+    setDraftSubTasks((prev) => {
+      const nextSubtaskId = prev.length > 0 ? Math.max(...prev.map((subtask) => subtask.id)) + 1 : 1
+      return [
+        ...prev,
+        {
+          id: nextSubtaskId,
+          title,
+          completed: false,
+        },
+      ]
+    })
   }
-
-  useEffect(() => {
-    draftSubTasksRef.current = draftSubTasks
-  }, [draftSubTasks])
 
   useEffect(() => {
     if (!task) return
     modifyRegister?.(() => draftSubTasksRef.current)
-    deleteRegister?.(() => {
-      dispatch(modify({ ...task, subtasks: draftSubTasksRef.current }))
-    })
-  }, [task, modifyRegister, deleteRegister])
+  }, [])
 
 
 
@@ -83,7 +72,7 @@ export function SubtasksCard({
         <div className="flex items-center gap-2">
           <Network className="w-5 h-5 text-foreground" />
           <h2 className="text-xl font-bold text-foreground">
-            Subtasks ({subtasks.length})
+            Subtasks ({draftSubTasks.length})
           </h2>
         </div>
         <Button
