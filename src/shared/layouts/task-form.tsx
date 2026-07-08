@@ -3,8 +3,13 @@ import type { TaskRecord } from "@/shared/type"
 import { Button } from "@/shared/components/button"
 import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui"
 import { ChevronRight } from "lucide-react"
-import { postSaveTask } from "@/shared/lib/mock-api"
-export function TaskForm({ task, onSubmit }: { task: TaskRecord, onSubmit: (task: TaskRecord) => void }) {
+import { useDispatch, useSelector } from "react-redux"
+import { createTask } from "@/redux/features/taskSlice"
+import type { AppDispatch, RootState } from "@/redux/store"
+
+export function TaskForm({ task, onSubmit }: { task: TaskRecord, onSubmit?: (task: TaskRecord) => void }) {
+  const dispatch = useDispatch<AppDispatch>()
+  const tasks = useSelector((state: RootState) => state.tasks)
   const [isOpen, setIsOpen] = useState(false)
   const [priority, setPriority] = useState(task?.priority || "Select priority")
   const priorityMenuRef = useRef<HTMLDivElement | null>(null)
@@ -28,22 +33,22 @@ export function TaskForm({ task, onSubmit }: { task: TaskRecord, onSubmit: (task
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
+    const nextId = tasks.length > 0 ? Math.max(...tasks.map((t) => t.id)) + 1 : 1
     const nextTask: TaskRecord = {
-      ...task,
+      id: nextId,
       title: String(formData.get("title") ?? ""),
       description: String(formData.get("description") ?? ""),
       priority: priority === "Select priority" ? 'Low' : priority,
       dueDate: String(formData.get("dueDate") ?? ""),
+      status: task.status,
+      subtasks: task.subtasks ?? [],
+      tags: task.tags ?? [],
     }
 
-    onSubmit(nextTask)
 
-    try {
-      postSaveTask(nextTask)
-    } catch (error) {
-      console.error("Failed to save task", error)
-    }
-    
+    dispatch(createTask(nextTask))
+
+    onSubmit?.(nextTask)
     handleCloseDialog()
   }
 

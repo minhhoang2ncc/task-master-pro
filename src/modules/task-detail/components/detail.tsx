@@ -11,10 +11,10 @@ import { Label } from "@/shared/components/label"
 import { Button } from "@/shared/components/button"
 import { Plus, X } from "lucide-react"
 import { useDispatch } from "react-redux"
-import { remove } from "@/redux/features/taskSlice"
+import { deleteTask } from "@/redux/features/taskSlice"
 import { useNavigate } from "react-router-dom"
 import type { TaskRecord } from "@/shared/type"
-import { deleteTask } from "@/shared/lib/mock-api"
+import type { AppDispatch } from "@/redux/store"
 
 export function Detail({ task, modifyRegister, deleteRegister }:
   {
@@ -37,7 +37,7 @@ export function Detail({ task, modifyRegister, deleteRegister }:
   ]
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   const [taskData, setTaskData] = useState<TaskRecord | undefined>(task)
   const [tags, setTags] = useState<{ name: string; color: string }[]>(taskData?.tags || [])
@@ -75,11 +75,8 @@ export function Detail({ task, modifyRegister, deleteRegister }:
   useEffect(() => {
     if (!deleteRegister) return
     deleteRegister(() => {
-      const id = taskDataRef.current!.id
-      dispatch(remove({ id }))
-      deleteTask(id).catch((error) =>
-        console.error("Failed to delete task from API", error)
-      )
+      const task = taskDataRef.current!
+      dispatch(deleteTask(task))
       navigate("/dashboard")
     })
   }, [])

@@ -27,6 +27,7 @@
     "recharts": "^3.8.0",
     "redux-persist": "^6.0.0",
     "redux-remember": "^6.0.2",
+    "redux-saga": "^1.5.0",
     "shadcn": "^4.11.0",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4",

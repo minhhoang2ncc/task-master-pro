@@ -8,13 +8,8 @@ import { SettingsPage } from "@/pages/SettingsPage"
 import { TaskDetailPage } from "@/pages/TaskDetailPage"
 import { TaskForm } from "@/shared/layouts/task-form"
 import type { TaskRecord } from "@/shared/type"
-import { useDispatch, useSelector } from "react-redux"
-import type { RootState } from "@/redux/store"
-import { append } from "@/redux/features/taskSlice"
 
 export default function App() {
-  const dispatch = useDispatch()
-  const taskList = useSelector((state: RootState) => state.tasks) || []
 
   const draftTask: TaskRecord = {
     id: 0,
@@ -27,14 +22,6 @@ export default function App() {
     tags: [],
   }
 
-  const handleCreateTask = (task: TaskRecord) => {
-    const nextId = taskList.length > 0 ? Math.max(...taskList.map((item) => item.id)) + 1 : 1
-
-    dispatch(append({
-      ...task,
-      id: nextId,
-    }))
-  }
 
   return (
     //    <TaskProvider tasks={allTasks}>
@@ -53,7 +40,7 @@ export default function App() {
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </main>
-      <TaskForm task={draftTask} onSubmit={handleCreateTask} />
+      <TaskForm task={draftTask} />
     </SidebarProvider>
     //    </TaskProvider>
   )
