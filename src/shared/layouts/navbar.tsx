@@ -2,17 +2,35 @@ import { Button } from "@/shared/components/button"
 import { Avatar, AvatarImage, AvatarFallback } from "../components/avatar"
 
 import { useState } from "react"
+import { useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
 
 import { Search, CirclePlus, Bell, BellDot, CircleQuestionMark } from "lucide-react"
 import { Separator } from "../components/separator"
+import { USER_DIALOG_ID } from "./user-form"
 
 
 export function NavBar() {
   const [isNotification, setIsNotification] = useState(false)
+  const user = useSelector((state: RootState) => state.user)
+
   const openTaskDialog = () => {
     const dialog = document.getElementById('inputDialog') as HTMLDialogElement
     dialog.showModal()
   }
+
+  const openUserDialog = () => {
+    const dialog = document.getElementById(USER_DIALOG_ID) as HTMLDialogElement
+    dialog?.showModal()
+  }
+
+  const avatarSeed = encodeURIComponent(user.displayName || "user")
+  const initials = user.displayName
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2)
 
   return (
     <nav className="flex-1 flex items-center justify-between gap-4 relative">
@@ -29,10 +47,18 @@ export function NavBar() {
           <CircleQuestionMark className="size-4" />
         </Button>
         <Separator orientation="vertical" className="self-stretch data-vertical:w-[1px] mx-2" />
-        <Avatar className="h-8 w-8 border-2 border-white">
-          <AvatarImage src={`https://api.dicebear.com/7.x/notionists/svg?seed=1`} alt="Assignee" />
-          <AvatarFallback>U</AvatarFallback>
-        </Avatar>
+        <button
+          type="button"
+          aria-label="Edit profile"
+          title={`Edit profile — ${user.displayName}`}
+          onClick={openUserDialog}
+          className="rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-transform hover:scale-105 cursor-pointer"
+        >
+          <Avatar className="h-8 w-8 border-2 border-white">
+            <AvatarImage src={`https://api.dicebear.com/7.x/notionists/svg?seed=${avatarSeed}`} alt={user.displayName} />
+            <AvatarFallback>{initials || "U"}</AvatarFallback>
+          </Avatar>
+        </button>
         <Button variant="default" size="lg" onClick={openTaskDialog}>
           <CirclePlus className="size-4" /> Create Task
         </Button>

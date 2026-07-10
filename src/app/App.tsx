@@ -7,6 +7,7 @@ import { AnalyticsPage } from "@/pages/AnalyticsPage"
 import { SettingsPage } from "@/pages/SettingsPage"
 import { TaskDetailPage } from "@/pages/TaskDetailPage"
 import { TaskForm } from "@/shared/layouts/task-form"
+import { UserForm } from "@/shared/layouts/user-form"
 import type { TaskRecord } from "@/shared/type"
 
 export default function App() {
@@ -41,6 +42,7 @@ export default function App() {
         </Routes>
       </main>
       <TaskForm task={draftTask} />
+      <UserForm />
     </SidebarProvider>
     //    </TaskProvider>
   )
