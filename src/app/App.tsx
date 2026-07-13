@@ -2,13 +2,14 @@ import { Route, Routes } from "react-router-dom"
 import { AppSidebar } from "@/shared/layouts/app-sidebar"
 import { NavBar } from "@/shared/layouts/navbar"
 import { SidebarProvider, SidebarTrigger } from "@/shared/components/sidebar"
-import { DashboardPage } from "@/pages/DashboardPage"
-import { AnalyticsPage } from "@/pages/AnalyticsPage"
-import { SettingsPage } from "@/pages/SettingsPage"
-import { TaskDetailPage } from "@/pages/TaskDetailPage"
+import { DashboardPage } from "@/pages/Dashboard/DashboardPage"
+import { AnalyticsPage } from "@/pages/Analytics/AnalyticsPage"
+import { SettingsPage } from "@/pages/Settings/SettingsPage"
+import { TaskDetailPage } from "@/pages/TaskDetail/TaskDetailPage"
 import { TaskForm } from "@/shared/layouts/task-form"
 import { UserForm } from "@/shared/layouts/user-form"
 import type { TaskRecord } from "@/shared/type"
+import dayjs from "dayjs"
 
 export default function App() {
 
@@ -17,7 +18,7 @@ export default function App() {
     title: "",
     description: "",
     priority: "Low",
-    dueDate: new Date().toISOString().split("T")[0],
+    dueDate: dayjs(),
     status: "pending",
     subtasks: [],
     tags: [],
@@ -25,7 +26,6 @@ export default function App() {
 
 
   return (
-    //    <TaskProvider tasks={allTasks}>
     <SidebarProvider>
       <AppSidebar />
       <main className="w-full">
@@ -44,6 +44,5 @@ export default function App() {
       <TaskForm task={draftTask} />
       <UserForm />
     </SidebarProvider>
-    //    </TaskProvider>
   )
 }

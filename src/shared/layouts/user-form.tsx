@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { updateUser } from "@/redux/features/userSlice"
+import { updateUser } from "@/redux/slices/userSlice"
 import type { AppDispatch, RootState } from "@/redux/store"
 import { Button } from "@/shared/components/button"
 import { Avatar, AvatarImage, AvatarFallback } from "@/shared/components/avatar"

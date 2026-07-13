@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/shared/components/card"
-import { Task } from "@/modules/dashboard/components/task"
+import { Task } from "@/pages/Dashboard/components/task"
+
 import { ListFilter, SlidersHorizontal } from "lucide-react"
 import { Button } from "@/shared/components/button"
 import { useSelector } from "react-redux"

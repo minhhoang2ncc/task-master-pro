@@ -1,10 +1,4 @@
-// export interface Task {
-//   id: number
-//   title: string
-//   description: string
-//   priority: string
-//   dueDate: Date
-// }
+import type { Dayjs } from "dayjs"
 
 export type Status = 'completed' | 'pending' | 'cancelled'
 
@@ -20,7 +14,7 @@ export interface TaskRecord {
   title: string
   description?: string
   priority: string
-  dueDate: string
+  dueDate: Dayjs
   status: Status
   tags?: { name: string; color: string }[]
   subtasks?: Subtask[]

@@ -9,11 +9,6 @@ import {
 } from "@/shared/components/chart"
 
 import type { ChartConfig } from "@/shared/components/chart"
-// import { useSelector } from "react-redux"
-// import type { RootState } from "@/redux/store"
-
-// const taskList = useSelector((state: RootState) => state.tasks) || []
-
 const chartData = [
   { day: "Mon", newTasks: 30, completed: 20 },
   { day: "Tue", newTasks: 45, completed: 25 },
@@ -55,7 +50,7 @@ export function WeeklyProductivityChart() {
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} verticalAlign="top" align="right" wrapperStyle={{ top: -70, right: -120 }} />
-            
+
             <Line
               dataKey="newTasks"
               type="monotone"

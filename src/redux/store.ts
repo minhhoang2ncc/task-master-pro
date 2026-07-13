@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { rememberReducer, rememberEnhancer } from 'redux-remember';
-import rootSaga from '@/shared/saga';
+import rootSaga from '@/redux/saga/rootSaga';
 
-import taskReducer from './features/taskSlice';
-import userReducer from './features/userSlice';
-import notifyReducer from './features/notifySlice';
-import languageReducer from './features/languageSlice';
+import taskReducer from './slices/taskSlice';
+import userReducer from './slices/userSlice';
+import notifyReducer from './slices/notifySlice';
+import languageReducer from './slices/languageSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -31,9 +31,6 @@ const store = configureStore({
     ),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   middleware: (getDefaultMiddleware) =>
-    // redux-remember bundles its own RTK copy which causes a TS2719 duplicate-type
-    // conflict on GetDefaultMiddleware. Casting to `any` here is the minimal fix;
-    // AppDispatch (derived from store.dispatch) still carries the full thunk + saga types.
     getDefaultMiddleware({ serializableCheck: false }).concat(sagaMiddleware) as any,
 });
 

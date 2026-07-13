@@ -6,10 +6,12 @@ import { Calendar, CheckCheck } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { BADGE, PRIORITY } from "@/shared/styles/tailwind-classes"
 import { useDispatch, useSelector } from "react-redux"
-import { modify } from '@/redux/features/taskSlice';
+import { modify } from '@/redux/slices/taskSlice';
 import type { RootState } from "@/redux/store"
+import type { Dayjs } from "dayjs"
+import dayjs from "dayjs"
 
-export function Task({ id, Title, Priority, DueDate, status }: { id: number; Title: string; Priority: string; DueDate: string; status: string }) {
+export function Task({ id, Title, Priority, DueDate, status }: { id: number; Title: string; Priority: string; DueDate: Dayjs; status: string }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const fullTask = useSelector((state: RootState) => state.tasks.find((t) => t.id === id))
@@ -67,7 +69,7 @@ export function Task({ id, Title, Priority, DueDate, status }: { id: number; Tit
 
           <div className="flex items-center text-sm text-slate-500 gap-1">
             {isCompleted ? <CheckCheck className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
-            <span>{new Date(DueDate).toLocaleDateString()}</span>
+            <span>{dayjs(DueDate).format("MMM D, YYYY")}</span>
           </div>
         </div>
       </section>

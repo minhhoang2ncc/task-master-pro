@@ -1,16 +1,16 @@
-import { Detail } from "@/modules/task-detail/components/detail"
-import { SubtasksCard } from "@/modules/task-detail/components/sub-task";
-import { SubTaskForm } from "@/modules/task-detail/components/subtask-form";
+import { Detail } from "@/pages/TaskDetail/components/detail"
+import { SubtasksCard } from "@/pages/TaskDetail/components/sub-task";
+import { SubTaskForm } from "@/pages/TaskDetail/components/subtask-form";
 import { ChevronRight } from "lucide-react"
 import { useState, useRef } from "react";
-import { ActionCard } from "@/modules/task-detail/components/action-card";
-import { ProgressCard } from "@/modules/task-detail/components/progress-card";
+import { ActionCard } from "@/pages/TaskDetail/components/action-card";
+import { ProgressCard } from "@/pages/TaskDetail/components/progress-card";
 import { useSelector, useDispatch } from "react-redux";
-import { modify } from "@/redux/features/taskSlice";
+import { modify } from "@/redux/slices/taskSlice";
 import type { Subtask, TaskRecord } from "@/shared/type";
 import { useParams } from "react-router-dom";
 import type { RootState } from "@/redux/store";
-import { postSaveTask } from "@/shared/lib/mock-api";
+import { TASK_SAVE_REQUESTED } from "@/redux/saga/taskSaga";
 
 export function TaskDetailPage() {
   const taskId = useParams<{ id: string }>().id;
@@ -38,10 +38,7 @@ export function TaskDetailPage() {
     }
 
     dispatch(modify(merged))
-
-    postSaveTask(merged).catch((error) =>
-      console.error("Failed to sync task to API", error)
-    )
+    dispatch({ type: TASK_SAVE_REQUESTED, payload: merged })
   }
 
   const handleAddSubtaskRef = useRef<((title: string) => void) | undefined>(undefined);
